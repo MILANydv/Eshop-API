@@ -2,13 +2,12 @@ const mongoose = require("mongoose");
 require('colors');
 
 const connectDB = async () => {
-  const conn = await mongoose.connect(process.env.CONNECTION_STRING, {
+  const conn = await mongoose.connect(process.env.CONNECTION_STRING_ATLAS, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
     // dbName: "Eshop",
-
   });
 
   console.log(
