@@ -17,7 +17,7 @@ const { findOneAndRemove } = require("../models/order-item");
 //   }
 // });
 
-router.get("/:id", jwt, async (req, res) => {
+router.get("/:id", async (req, res) => {
   const product = await Product.findById(req.params.id).populate("category"); // display category in product
   if (!product) {
     res.status(401).json({
@@ -84,7 +84,16 @@ router.post("/", uploadOptions.single("image"), async (req, res) => {
     const fileName = req.file.filename;
     // req.protocol = "http";
     // req.get = localhost:3000/
-    const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
+       let basePath;
+       if (req.get("host").includes("10.0.2.2")) {
+         basePath = `${req.protocol}://${req
+           .get("host")
+           .replace("10.0.2.2", "localhost")}/public/uploads/`;
+       } else {
+         basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
+       }
+    // const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
+    // const basePath = `http://localhost:3000/public/uploads/`;
 
     product.image = basePath + fileName;
     
